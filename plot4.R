@@ -1,0 +1,23 @@
+data<-read.csv('household_power_consumption1.csv')
+data$date_time<-with(data,paste(Date,Time,sep=" "))
+data$date_time<- strptime(data$date_time, format="%d/%m/%Y %H:%M:%S")
+par(mfrow=c(2,2), mar=rep(4,4))
+with(data, {plot(data$date_time,data$Global_active_power, col="white", ylab="Global Active Power (Kilowatts)", xlab = " ")
+lines(data$date_time,data$Global_active_power)
+
+plot(data$date_time,data$Voltage, col="white", ylab="Voltage", xlab = "datetime")
+lines(data$date_time,data$Voltage)
+
+
+with(data,plot(data$date_time,data$Sub_metering_1,type="n",ylab="Energy sub metering",xlab=" "))
+with(data, lines(data$date_time,data$Sub_metering_1, col="black"))
+with(data, lines(data$date_time,data$Sub_metering_2, col="red"))
+with(data, lines(data$date_time,data$Sub_metering_3, col="blue"))
+legend("topright",legend=c("Sub_metering_1","Sun_metering_2","Submetering_3"),col=c("black","red","blue"),cex=0.3,lty="solid")
+
+plot(data$date_time,data$Global_reactive_power, col="white", ylab="Global_reactive_power", xlab = "datetime")
+lines(data$date_time,data$Global_reactive_power)
+
+})
+dev.copy(png,file="plot4.png")
+dev.off()
